@@ -2,13 +2,21 @@ from fastapi import FastAPI, HTTPException, Depends
 import json
 from datetime import datetime
 from fastapi.security import APIKeyHeader
+import os
+from dotenv import load_dotenv
+# Carga las variables desde el archivo .env
+
+API_KEY = os.getenv("API_KEY")
+
+if not API_KEY:
+    raise ValueError("API_KEY no está configurada. Revisa el archivo .env o las variables de entorno.")
 
 app = FastAPI()
+FERIADOS_FILE = "https://raw.githubusercontent.com/MarianaSardo/byma-feriados/main/feriados.json"
 
-FERIADOS_FILE = "feriados.json"
 
 # API Key para seguridad
-API_KEY = "bbsa-report"
+
 api_key_header = APIKeyHeader(name="X-API-Key")
 
 
