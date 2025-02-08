@@ -1,0 +1,15 @@
+
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+env/
+
+.idea/
+
+dist/
+build/
+
+.env
+config.json
