@@ -13,7 +13,6 @@ API_KEY = os.getenv("API_KEY")
 if not API_KEY:
     raise ValueError("API_KEY no está configurada.")
 
-
 app = FastAPI()
 FERIADOS_FILE = "https://raw.githubusercontent.com/MarianaSardo/byma-feriados/main/feriados.json"
 
@@ -22,14 +21,13 @@ api_key_header = APIKeyHeader(name="X-API-Key")
 
 def validar_api_key(api_key: str = Depends(api_key_header)):
     if api_key != API_KEY:
-        raise HTTPException(status_code=403, detail="Acceso denegado: API Key inv├ílida.")
+        raise HTTPException(status_code=403, detail="Acceso denegado: API Key invalida.")
     return api_key
 
 
 def cargar_feriados():
     with open("feriados.json", "r", encoding="utf-8") as file:
         return json.load(file)
-
 
 
 def guardar_feriados(feriados):
@@ -42,12 +40,12 @@ FERIADOS_BYMA = cargar_feriados()
 
 @app.get("/feriados/{anio}")
 def obtener_feriados(anio: int):
-    """Devuelve los feriados de un anio especifico"""
+    """Devuelve los feriados de un año específico"""
     anio_str = str(anio)
     if anio_str in FERIADOS_BYMA:
         return {"anio": anio, "feriados": FERIADOS_BYMA[anio_str]}
     else:
-        return {"error": "No hay datos de feriados para este a├▒o"}
+        return {"error": "No hay datos de feriados para este año"}
 
 
 @app.get("/es_feriado_hoy")
@@ -64,7 +62,7 @@ def es_feriado_hoy():
 @app.post("/feriados/agregar/", dependencies=[Depends(validar_api_key)])
 def agregar_feriado(anio: int, fecha: str, nombre: str):
     """
-    Agrega un nuevo feriado al JSON. Se requiere API Key.
+    Agrega un nuevo feriado al JSON.
     """
     anio_str = str(anio)
 
@@ -91,7 +89,7 @@ def agregar_feriado(anio: int, fecha: str, nombre: str):
 @app.delete("/feriados/eliminar/", dependencies=[Depends(validar_api_key)])
 def eliminar_feriado(anio: int, fecha: str):
     """
-    Elimina un feriado del JSON. Se requiere API Key.
+    Elimina un feriado del JSON.
     """
     anio_str = str(anio)
 
