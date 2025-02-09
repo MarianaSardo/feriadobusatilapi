@@ -2,6 +2,7 @@ import json
 import os
 from datetime import datetime
 
+import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import APIKeyHeader
@@ -106,3 +107,8 @@ def eliminar_feriado(anio: int, fecha: str):
     guardar_feriados(FERIADOS_BYMA)
 
     return {"mensaje": f"Feriado del {fecha} eliminado correctamente."}
+
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
