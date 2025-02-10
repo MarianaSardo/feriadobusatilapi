@@ -42,7 +42,7 @@ FERIADOS_BYMA = cargar_feriados()
 @app.get("/feriados/all")
 def obtener_todos_feriados():
     """Devuelve todos los feriados disponibles en la base de datos."""
-    return FERIADOS_BYMA
+    return cargar_feriados()
 
 
 @app.get("/feriados/{anio}")
