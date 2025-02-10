@@ -13,3 +13,5 @@ build/
 
 .env
 config.json
+
+config.py

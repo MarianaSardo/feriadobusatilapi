@@ -2,10 +2,11 @@ import json
 import os
 from datetime import datetime
 
-import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import APIKeyHeader
+
+from config import FERIADOS_FILE
 
 load_dotenv()
 
@@ -15,7 +16,6 @@ if not API_KEY:
     raise ValueError("API_KEY no está configurada.")
 
 app = FastAPI()
-FERIADOS_FILE = "https://raw.githubusercontent.com/MarianaSardo/byma-feriados/main/feriados.json"
 
 api_key_header = APIKeyHeader(name="X-API-Key")
 
@@ -37,6 +37,12 @@ def guardar_feriados(feriados):
 
 
 FERIADOS_BYMA = cargar_feriados()
+
+
+@app.get("/feriados/all")
+def obtener_todos_feriados():
+    """Devuelve todos los feriados disponibles en la base de datos."""
+    return FERIADOS_BYMA
 
 
 @app.get("/feriados/{anio}")
