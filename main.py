@@ -55,17 +55,6 @@ def obtener_feriados(anio: int):
         return {"error": "No hay datos de feriados para este año"}
 
 
-@app.get("/es_feriado_hoy")
-def es_feriado_hoy():
-    """Verifica si hoy es feriado en BYMA"""
-    hoy = datetime.today().strftime("%Y-%m-%d")
-    for anio, feriados in FERIADOS_BYMA.items():
-        for f in feriados:
-            if f["fecha"] == hoy:
-                return {"hoy": hoy, "es_feriado": True, "nombre": f["nombre"]}
-    return {"hoy": hoy, "es_feriado": False}
-
-
 @app.post("/feriados/agregar/", dependencies=[Depends(validar_api_key)])
 def agregar_feriado(anio: int, fecha: str, nombre: str):
     """
