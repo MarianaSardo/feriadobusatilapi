@@ -27,7 +27,7 @@ def validar_api_key(api_key: str = Depends(api_key_header)):
 
 
 def cargar_feriados():
-    with open("feriados.json", "r", encoding="utf-8") as file:
+    with open("../feriados.json", "r", encoding="utf-8") as file:
         return json.load(file)
 
 
