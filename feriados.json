@@ -146,7 +146,7 @@
     "2025": [
         {
             "fecha": "2025-01-01",
-            "nombre": "Anio Nuevo"
+            "nombre": "AÑO NUEVO 2025"
         },
         {
             "fecha": "2025-03-03",
@@ -158,63 +158,55 @@
         },
         {
             "fecha": "2025-03-24",
-            "nombre": "Dia Nacional de la Memoria por la Verdad y la Justicia"
+            "nombre": "Día Nacional de la Memoria por la Verdad y la Justicia"
         },
         {
             "fecha": "2025-04-02",
-            "nombre": "Dia del Veterano y de los Caidos en la Guerra de Malvinas"
+            "nombre": "Día del Veterano y de los Caídos en la Guerra de Malvinas"
         },
         {
             "fecha": "2025-04-17",
-            "nombre": "Jueves Santo"
+            "nombre": "Jueves Santo. Festividad Cristiana"
         },
         {
             "fecha": "2025-04-18",
-            "nombre": "Viernes Santo"
+            "nombre": "Viernes Santo. Festividad Cristiana"
         },
         {
             "fecha": "2025-05-01",
-            "nombre": "Dia del Trabajador"
-        },
-        {
-            "fecha": "2025-05-02",
-            "nombre": "Feriado Turistico"
+            "nombre": "Día del Trabajador"
         },
         {
             "fecha": "2025-06-16",
-            "nombre": "Paso a la Inmortalidad de Martin Miguel de Guemes"
+            "nombre": "Paso a la Inmortalidad del Gral. Don Martín Miguel de Güemes"
         },
         {
             "fecha": "2025-06-20",
-            "nombre": "Paso a la Inmortalidad de Manuel Belgrano"
+            "nombre": "Paso a la Inmortalidad del General Manuel Belgrano"
         },
         {
             "fecha": "2025-07-09",
-            "nombre": "Dia de la Independencia"
+            "nombre": "Día de la Independencia"
         },
         {
             "fecha": "2025-08-15",
-            "nombre": "Feriado Turistico"
+            "nombre": "Día no Laborable con Fines Turísticos"
         },
         {
             "fecha": "2025-11-21",
-            "nombre": "Feriado Turistico"
+            "nombre": "Día no Laborable con Fines Turísticos"
         },
         {
             "fecha": "2025-11-24",
-            "nombre": "Dia de la Soberania Nacional"
+            "nombre": "Día de la Soberanía Nacional"
         },
         {
             "fecha": "2025-12-08",
-            "nombre": "Inmaculada Concepcion de Maria"
+            "nombre": "Inmaculada Concepción de María"
         },
         {
             "fecha": "2025-12-25",
             "nombre": "Navidad"
-        },
-        {
-            "fecha": "2025-12-31",
-            "nombre": "Jornada sin negociacion"
         }
     ]
 }
