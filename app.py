@@ -155,6 +155,39 @@ async def obtener_todos_feriados():
     return FERIADOS_BYMA
 
 
+@app.get("/feriados/proximos", response_model=List[Dict])
+async def proximos_feriados(
+    cantidad: int = Query(
+        default=5,
+        ge=1,
+        le=MAX_PROXIMOS_FERIADOS,
+        description=f"Cantidad de próximos feriados a mostrar (máximo {MAX_PROXIMOS_FERIADOS})",
+    )
+):
+    """Devuelve los próximos feriados desde hoy"""
+    fecha_actual = datetime.now().date()
+    proximos = []
+
+    for anio_str, feriados in FERIADOS_BYMA.items():
+        for feriado in feriados:
+            try:
+                fecha_feriado = datetime.strptime(feriado["fecha"], "%Y-%m-%d").date()
+                if fecha_feriado >= fecha_actual:
+                    proximos.append(
+                        {
+                            "fecha": feriado["fecha"],
+                            "nombre": feriado["nombre"],
+                            "dias_restantes": (fecha_feriado - fecha_actual).days,
+                        }
+                    )
+            except ValueError:
+                continue
+
+    # Ordenar por fecha y tomar los primeros
+    proximos.sort(key=lambda x: x["fecha"])
+    return proximos[:cantidad]
+
+
 @app.get("/feriados/{anio}", response_model=FeriadoResponse)
 async def obtener_feriados(anio: int):
     """Devuelve los feriados de un año específico"""
@@ -195,39 +228,6 @@ async def consultar_fecha(fecha: str):
             return {"fecha": fecha, "es_feriado": True, "nombre": feriado["nombre"]}
 
     return {"fecha": fecha, "es_feriado": False, "nombre": None}
-
-
-@app.get("/feriados/proximos", response_model=List[Dict])
-async def proximos_feriados(
-    cantidad: int = Query(
-        default=5,
-        ge=1,
-        le=MAX_PROXIMOS_FERIADOS,
-        description=f"Cantidad de próximos feriados a mostrar (máximo {MAX_PROXIMOS_FERIADOS})",
-    )
-):
-    """Devuelve los próximos feriados desde hoy"""
-    fecha_actual = datetime.now().date()
-    proximos = []
-
-    for anio_str, feriados in FERIADOS_BYMA.items():
-        for feriado in feriados:
-            try:
-                fecha_feriado = datetime.strptime(feriado["fecha"], "%Y-%m-%d").date()
-                if fecha_feriado >= fecha_actual:
-                    proximos.append(
-                        {
-                            "fecha": feriado["fecha"],
-                            "nombre": feriado["nombre"],
-                            "dias_restantes": (fecha_feriado - fecha_actual).days,
-                        }
-                    )
-            except ValueError:
-                continue
-
-    # Ordenar por fecha y tomar los primeros
-    proximos.sort(key=lambda x: x["fecha"])
-    return proximos[:cantidad]
 
 
 @app.post(
