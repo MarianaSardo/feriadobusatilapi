@@ -394,11 +394,17 @@ function handleDateInput() {
 async function handleAddHoliday(event) {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const year = formData.get('add-year');
-    const date = formData.get('add-date');
-    const name = formData.get('add-name');
-    const apiKey = formData.get('api-key');
+    const year = document.getElementById('add-year').value;
+    const date = document.getElementById('add-date').value;
+    const name = document.getElementById('add-name').value;
+    const apiKey = document.getElementById('api-key').value;
+
+    // Validar que todos los campos estén completos
+    if (!year || !date || !name || !apiKey) {
+        showAdminMessage('Todos los campos son obligatorios', 'error');
+        showToast('Completa todos los campos', 'error');
+        return;
+    }
 
     try {
         await addHoliday(year, date, name, apiKey);
@@ -414,10 +420,16 @@ async function handleAddHoliday(event) {
 async function handleDeleteHoliday(event) {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const year = formData.get('delete-year');
-    const date = formData.get('delete-date');
-    const apiKey = formData.get('delete-api-key');
+    const year = document.getElementById('delete-year').value;
+    const date = document.getElementById('delete-date').value;
+    const apiKey = document.getElementById('delete-api-key').value;
+
+    // Validar que todos los campos estén completos
+    if (!year || !date || !apiKey) {
+        showAdminMessage('Todos los campos son obligatorios', 'error');
+        showToast('Completa todos los campos', 'error');
+        return;
+    }
 
     try {
         await deleteHoliday(year, date, apiKey);
@@ -486,6 +498,17 @@ function renderCalendar() {
         if (holiday) {
             dayElement.classList.add('holiday');
             dayElement.title = holiday.nombre;
+
+            // Agregar el nombre del feriado como tooltip más visible
+            const holidayName = document.createElement('div');
+            holidayName.className = 'holiday-name';
+            holidayName.textContent = holiday.nombre;
+            dayElement.appendChild(holidayName);
+
+            // Agregar evento de clic para mostrar más detalles
+            dayElement.addEventListener('click', () => {
+                showHolidayDetails(holiday);
+            });
         }
 
         elements.calendarGrid.appendChild(dayElement);
@@ -541,8 +564,50 @@ function showAdminMessage(message, type) {
     elements.adminMessage.textContent = message;
     elements.adminMessage.className = `admin-message ${type}`;
     showElement(elements.adminMessage);
-
+    
     setTimeout(() => {
         hideElement(elements.adminMessage);
     }, 5000);
+}
+
+// Función para mostrar detalles del feriado
+function showHolidayDetails(holiday) {
+    const modal = document.createElement('div');
+    modal.className = 'holiday-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Detalles del Feriado</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="holiday-detail">
+                    <strong>Nombre:</strong> ${holiday.nombre}
+                </div>
+                <div class="holiday-detail">
+                    <strong>Fecha:</strong> ${formatDate(holiday.fecha)}
+                </div>
+                <div class="holiday-detail">
+                    <strong>Año:</strong> ${new Date(holiday.fecha).getFullYear()}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Cerrar modal al hacer clic en el botón X o fuera del modal
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('modal-close')) {
+            modal.remove();
+        }
+    });
+    
+    // Cerrar con ESC
+    document.addEventListener('keydown', function closeModal(e) {
+        if (e.key === 'Escape') {
+            modal.remove();
+            document.removeEventListener('keydown', closeModal);
+        }
+    });
 } 

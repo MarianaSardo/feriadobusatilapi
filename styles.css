@@ -209,6 +209,20 @@ body {
     border-color: #667eea;
 }
 
+.form-text {
+    font-size: 0.875rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.form-text code {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    padding: 0.125rem 0.25rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+}
+
 /* Buttons */
 .btn {
     padding: 0.75rem 1.5rem;
@@ -459,6 +473,34 @@ body {
     font-size: 0.8rem;
 }
 
+.calendar-day.holiday {
+    position: relative;
+    cursor: pointer;
+}
+
+.holiday-name {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1px 2px;
+    border-radius: 3px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.calendar-day.holiday:hover .holiday-name {
+    opacity: 1;
+}
+
 .calendar-day.today {
     background: #ffd700;
     color: #333;
@@ -582,6 +624,105 @@ body {
 
     to {
         transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Modal de Detalles del Feriado */
+.holiday-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 0;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.holiday-detail {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #667eea;
+}
+
+.holiday-detail:last-child {
+    margin-bottom: 0;
+}
+
+.holiday-detail strong {
+    color: #667eea;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
         opacity: 1;
     }
 }

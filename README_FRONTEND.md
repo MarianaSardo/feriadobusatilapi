@@ -23,8 +23,9 @@ Un frontend moderno y responsive para la API de Feriados Bursátiles Argentina, 
 - **Tooltips informativos** al pasar el mouse sobre feriados
 
 ### 🔧 Panel de Administración
-- **Agregar feriados** con validación de API Key
-- **Eliminar feriados** de forma segura
+- **Agregar feriados** con autenticación segura
+- **Eliminar feriados** con validación de permisos
+- **Sistema de autenticación** con API Key
 - **Mensajes de confirmación** para todas las operaciones
 - **Validación de formularios** en tiempo real
 
@@ -78,9 +79,10 @@ Simplemente abre el archivo `index.html` en tu navegador web.
 - **Interactividad**: Hover effects y tooltips informativos
 
 ### Administración
-- **Agregar Feriados**: Formulario con validación completa
-- **Eliminar Feriados**: Eliminación segura con confirmación
-- **Autenticación**: Requiere API Key para operaciones sensibles
+- **Agregar Feriados**: Formulario con autenticación segura
+- **Eliminar Feriados**: Eliminación con validación de permisos
+- **Sistema de Autenticación**: API Key para operaciones administrativas
+- **Seguridad**: Operaciones CRUD protegidas
 
 ## 🎨 Características de Diseño
 
@@ -142,9 +144,11 @@ En `styles.css`, puedes modificar las variables CSS para cambiar la paleta de co
 
 ## 🔒 Seguridad
 
-- **API Key Protection**: Las operaciones sensibles requieren autenticación
+- **Sistema de Autenticación**: API Key para operaciones administrativas
+- **Validación de Permisos**: Control de acceso a funciones sensibles
 - **Input Validation**: Validación en frontend y backend
 - **CORS Configuration**: Configurado para permitir comunicación segura
+- **Operaciones CRUD Protegidas**: Solo usuarios autorizados pueden modificar datos
 
 ## 📈 Próximas Mejoras
 
