@@ -1,10 +1,10 @@
 # 🚀 API de Feriados Bursátiles Argentinos
 
-**URL Base:** `http://50.18.187.142:8000`
+**URL Base:** `https://feriadosbursatiles.ddns.net/api`
 
-**Documentación Interactiva:** `http://50.18.187.142:8000/docs` (Swagger UI)
+**Documentación Interactiva:** `https://feriadosbursatiles.ddns.net/docs` (Swagger UI)
 
-**Frontend Web:** `http://50.18.187.142:3000` (Interfaz moderna y responsive)
+**Frontend Web:** `https://feriadosbursatiles.ddns.net` 
 
 ---
 
@@ -15,23 +15,23 @@
 #### 1. **Información General**
 - **GET** `/`
 - **Descripción:** Información de la API y endpoints disponibles
-- **Ejemplo:** `curl http://50.18.187.142:8000/`
+- **Ejemplo:** `curl https://feriadosbursatiles.ddns.net/api/`
 
 #### 2. **Todos los Feriados**
 - **GET** `/feriados/all`
 - **Descripción:** Obtiene todos los feriados de todos los años
-- **Ejemplo:** `curl http://50.18.187.142:8000/feriados/all`
+- **Ejemplo:** `curl https://feriadosbursatiles.ddns.net/api/feriados/all`
 
 #### 3. **Feriados por Año**
 - **GET** `/feriados/{anio}`
 - **Descripción:** Obtiene los feriados de un año específico
-- **Ejemplo:** `curl http://50.18.187.142:8000/feriados/2024`
+- **Ejemplo:** `curl https://feriadosbursatiles.ddns.net/api/feriados/2024`
 
 #### 4. **Consultar Fecha Específica**
 - **GET** `/feriados/consultar/{fecha}`
 - **Descripción:** Verifica si una fecha es feriado
 - **Formato:** YYYY-MM-DD
-- **Ejemplo:** `curl http://50.18.187.142:8000/feriados/consultar/2024-01-01`
+- **Ejemplo:** `curl https://feriadosbursatiles.ddns.net/api/feriados/consultar/2024-01-01`
 - **Respuesta:**
   ```json
   {
@@ -45,7 +45,7 @@
 - **GET** `/feriados/proximos?cantidad=5`
 - **Descripción:** Obtiene los próximos feriados desde hoy
 - **Parámetro opcional:** `cantidad` (1-20, default: 5)
-- **Ejemplo:** `curl "http://50.18.187.142:8000/feriados/proximos?cantidad=10"`
+- **Ejemplo:** `curl "https://feriadosbursatiles.ddns.net/api/feriados/proximos?cantidad=10"`
 
 ### 🔧 **Gestión (Requiere API Key)**
 
@@ -55,7 +55,7 @@
 - **Parámetros:** `anio`, `fecha`, `nombre`
 - **Ejemplo:**
   ```bash
-  curl -X POST "http://50.18.187.142:8000/feriados/agregar/" \
+  curl -X POST "https://feriadosbursatiles.ddns.net/api/feriados/agregar/" \
     -H "X-API-Key: tu_api_key" \
     -d "anio=2024&fecha=2024-12-25&nombre=Navidad"
   ```
@@ -66,7 +66,7 @@
 - **Parámetros:** `anio`, `fecha`
 - **Ejemplo:**
   ```bash
-  curl -X DELETE "http://50.18.187.142:8000/feriados/eliminar/" \
+  curl -X DELETE "https://feriadosbursatiles.ddns.net/api/feriados/eliminar/" \
     -H "X-API-Key: tu_api_key" \
     -d "anio=2024&fecha=2024-12-25"
   ```
@@ -112,9 +112,15 @@ python -m http.server 3000
 
 ### 🌐 **Acceso a la Aplicación**
 
+#### **Desarrollo Local:**
 - **API:** `http://localhost:8000`
 - **Documentación:** `http://localhost:8000/docs`
 - **Frontend:** `http://localhost:3000`
+
+#### **Producción:**
+- **API:** `https://feriadosbursatiles.ddns.net/api`
+- **Documentación:** `https://feriadosbursatiles.ddns.net/docs`
+- **Frontend:** `https://feriadosbursatiles.ddns.net`
 
 ### 🔧 **Configuración del Frontend**
 
