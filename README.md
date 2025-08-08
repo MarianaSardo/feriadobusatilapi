@@ -4,7 +4,7 @@
 
 **Documentación Interactiva:** `https://feriadosbursatiles.ddns.net/docs` (Swagger UI)
 
-**Frontend Web:** `https://feriadosbursatiles.ddns.net` 
+**Frontend Web:** `https://feriadosbursatiles.ddns.net` (Interfaz moderna y responsive)
 
 ---
 
