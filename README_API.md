@@ -4,6 +4,8 @@
 
 **Documentación Interactiva:** `http://50.18.187.142:8000/docs` (Swagger UI)
 
+**Frontend Web:** `http://50.18.187.142:3000` (Interfaz moderna y responsive)
+
 ---
 
 ## 🔌 Endpoints Disponibles
@@ -82,6 +84,10 @@ MAX_YEAR_OFFSET=10
 MAX_PROXIMOS_FERIADOS=20
 ```
 
+### 🔐 **Autenticación**
+
+Para operaciones administrativas (agregar/eliminar feriados), se requiere una API Key válida. La API Key se configura en el archivo `.env` del backend. Para obtener acceso administrativo, contacta al administrador del sistema.
+
 ---
 
 ## 🛠️ **Instalación y Uso**
@@ -99,7 +105,25 @@ pip install -r requirements.txt
 
 # 4. Ejecutar API
 python app.py
+
+# 5. Ejecutar Frontend (en otra terminal)
+python -m http.server 3000
 ```
+
+### 🌐 **Acceso a la Aplicación**
+
+- **API:** `http://localhost:8000`
+- **Documentación:** `http://localhost:8000/docs`
+- **Frontend:** `http://localhost:3000`
+
+### 🔧 **Configuración del Frontend**
+
+El frontend está compuesto por archivos estáticos:
+- `index.html` - Página principal
+- `styles.css` - Estilos modernos
+- `script.js` - Funcionalidad interactiva
+
+**No requiere instalación adicional** - solo abrir `index.html` en el navegador.
 
 ---
 
@@ -154,6 +178,7 @@ python app.py
 
 ## 🚀 **Características**
 
+### 🔧 **Backend (API)**
 - ✅ **Documentación automática** con Swagger UI
 - ✅ **Validación robusta** de fechas y años
 - ✅ **Autenticación por API Key** para operaciones de escritura
@@ -162,6 +187,16 @@ python app.py
 - ✅ **Respuestas estructuradas** y consistentes
 - ✅ **Ordenamiento automático** de feriados por fecha
 
+### 🎨 **Frontend (Interfaz Web)**
+- ✅ **Diseño moderno** con glassmorphism y gradientes
+- ✅ **Dashboard interactivo** con estadísticas en tiempo real
+- ✅ **Calendario visual** con feriados marcados e interactivo
+- ✅ **Búsqueda avanzada** por año y fecha específica
+- ✅ **Panel de administración** con autenticación segura
+- ✅ **Diseño responsive** para todos los dispositivos
+- ✅ **Notificaciones elegantes** y feedback visual
+- ✅ **Navegación intuitiva** entre secciones
+
 ---
 
 ## 🔗 **Repositorio**
@@ -169,6 +204,24 @@ python app.py
 https://github.com/MarianaSardo/feriadobusatilapi.git
 
 ---
+
+## 🎯 **Casos de Uso**
+
+### Para Desarrolladores
+- **Integración con aplicaciones** que necesiten datos de feriados
+- **APIs públicas** que requieran información de fechas especiales
+- **Sistemas de planificación** y calendarios
+
+### Para Usuarios Finales
+- **Consulta rápida** de feriados argentinos
+- **Planificación** de actividades y viajes
+- **Verificación** de fechas laborables
+
+### Para Portafolios
+- **Demostración de habilidades** en desarrollo full-stack
+- **Integración frontend-backend** moderna
+- **Sistema de autenticación** y seguridad
+- **Diseño responsive** y UX profesional
 
 ## 📞 **Soporte**
 

@@ -23,6 +23,7 @@
                     <button class="nav-btn active" data-section="dashboard">Dashboard</button>
                     <button class="nav-btn" data-section="calendar">Calendario</button>
                     <button class="nav-btn" data-section="admin">Admin</button>
+                    <button class="nav-btn" data-section="docs">Documentación</button>
                 </nav>
             </div>
         </div>
@@ -208,6 +209,203 @@
                 </div>
 
                 <div id="admin-message" class="admin-message hidden"></div>
+            </section>
+
+            <!-- Documentation Section -->
+            <section id="docs" class="section">
+                <div class="docs-header">
+                    <h2>Documentación de la API</h2>
+                    <p>Información completa sobre los endpoints y uso de la API</p>
+                </div>
+
+                <div class="docs-container">
+                    <!-- API Info -->
+                    <div class="docs-card">
+                        <h3>📋 Información General</h3>
+                        <div class="api-info">
+                            <div class="info-item">
+                                <strong>URL Base:</strong>
+                                <code>http://localhost:8000</code>
+                            </div>
+                            <div class="info-item">
+                                <strong>Documentación Swagger:</strong>
+                                <a href="http://localhost:8000/docs" target="_blank" class="docs-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    Ver Swagger UI
+                                </a>
+                            </div>
+                            <div class="info-item">
+                                <strong>Formato de Respuesta:</strong>
+                                <code>JSON</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Endpoints -->
+                    <div class="docs-card">
+                        <h3>🔍 Endpoints de Consulta (Sin Autenticación)</h3>
+                        <div class="endpoints-grid">
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="method get">GET</span>
+                                    <code>/</code>
+                                </div>
+                                <p>Información general de la API</p>
+                            </div>
+
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="method get">GET</span>
+                                    <code>/feriados/all</code>
+                                </div>
+                                <p>Todos los feriados de todos los años</p>
+                            </div>
+
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="method get">GET</span>
+                                    <code>/feriados/{anio}</code>
+                                </div>
+                                <p>Feriados de un año específico</p>
+                            </div>
+
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="method get">GET</span>
+                                    <code>/feriados/consultar/{fecha}</code>
+                                </div>
+                                <p>Verificar si una fecha es feriado (YYYY-MM-DD)</p>
+                            </div>
+
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="method get">GET</span>
+                                    <code>/feriados/proximos?cantidad=5</code>
+                                </div>
+                                <p>Próximos feriados (cantidad opcional: 1-20)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Endpoints -->
+                    <div class="docs-card">
+                        <h3>🔧 Endpoints de Administración (Requiere API Key)</h3>
+                        <div class="endpoints-grid">
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="method post">POST</span>
+                                    <code>/feriados/agregar/</code>
+                                </div>
+                                <p>Agregar un nuevo feriado</p>
+                                <div class="endpoint-details">
+                                    <strong>Headers:</strong> <code>X-API-Key: tu_api_key</code><br>
+                                    <strong>Parámetros:</strong> <code>anio, fecha, nombre</code>
+                                </div>
+                            </div>
+
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="method delete">DELETE</span>
+                                    <code>/feriados/eliminar/</code>
+                                </div>
+                                <p>Eliminar un feriado existente</p>
+                                <div class="endpoint-details">
+                                    <strong>Headers:</strong> <code>X-API-Key: tu_api_key</code><br>
+                                    <strong>Parámetros:</strong> <code>anio, fecha</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Examples -->
+                    <div class="docs-card">
+                        <h3>💡 Ejemplos de Uso</h3>
+                        <div class="examples-grid">
+                            <div class="example-item">
+                                <h4>Obtener feriados de 2024</h4>
+                                <div class="code-block">
+                                    <code>GET /feriados/2024</code>
+                                </div>
+                            </div>
+
+                            <div class="example-item">
+                                <h4>Consultar fecha específica</h4>
+                                <div class="code-block">
+                                    <code>GET /feriados/consultar/2024-12-25</code>
+                                </div>
+                            </div>
+
+                            <div class="example-item">
+                                <h4>Próximos 10 feriados</h4>
+                                <div class="code-block">
+                                    <code>GET /feriados/proximos?cantidad=10</code>
+                                </div>
+                            </div>
+
+                            <div class="example-item">
+                                <h4>Agregar feriado (con API Key)</h4>
+                                <div class="code-block">
+                                    <code>POST /feriados/agregar/</code><br>
+                                    <code>Headers: X-API-Key: tu_api_key</code><br>
+                                    <code>Body: anio=2024&fecha=2024-12-25&nombre=Navidad</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Response Examples -->
+                    <div class="docs-card">
+                        <h3>📄 Ejemplos de Respuesta</h3>
+                        <div class="response-examples">
+                            <div class="response-item">
+                                <h4>Consulta de fecha</h4>
+                                <pre class="json-example">{
+  "fecha": "2024-12-25",
+  "es_feriado": true,
+  "nombre": "Navidad"
+}</pre>
+                            </div>
+
+                            <div class="response-item">
+                                <h4>Próximos feriados</h4>
+                                <pre class="json-example">[
+  {
+    "fecha": "2024-12-25",
+    "nombre": "Navidad",
+    "dias_restantes": 15
+  }
+]</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error Handling -->
+                    <div class="docs-card">
+                        <h3>⚠️ Manejo de Errores</h3>
+                        <div class="error-examples">
+                            <div class="error-item">
+                                <h4>Error 400 - Validación</h4>
+                                <pre class="json-example">{
+  "detail": "Formato de fecha inválido. Usa YYYY-MM-DD."
+}</pre>
+                            </div>
+
+                            <div class="error-item">
+                                <h4>Error 403 - API Key Inválida</h4>
+                                <pre class="json-example">{
+  "detail": "Acceso denegado: API Key inválida."
+}</pre>
+                            </div>
+
+                            <div class="error-item">
+                                <h4>Error 404 - No Encontrado</h4>
+                                <pre class="json-example">{
+  "detail": "No hay datos de feriados para el año 2020"
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     </main>
