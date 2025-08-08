@@ -188,20 +188,6 @@ async def proximos_feriados(
     return proximos[:cantidad]
 
 
-@app.get("/feriados/{anio}", response_model=FeriadoResponse)
-async def obtener_feriados(anio: int):
-    """Devuelve los feriados de un año específico"""
-    validar_anio(anio)
-    anio_str = str(anio)
-
-    if anio_str not in FERIADOS_BYMA:
-        raise HTTPException(
-            status_code=404, detail=f"No hay datos de feriados para el año {anio}"
-        )
-
-    return {"anio": anio, "feriados": FERIADOS_BYMA[anio_str]}
-
-
 @app.get("/feriados/consultar/{fecha}", response_model=Dict)
 async def consultar_fecha(fecha: str):
     """Consulta si una fecha específica es feriado"""
@@ -228,6 +214,20 @@ async def consultar_fecha(fecha: str):
             return {"fecha": fecha, "es_feriado": True, "nombre": feriado["nombre"]}
 
     return {"fecha": fecha, "es_feriado": False, "nombre": None}
+
+
+@app.get("/feriados/{anio}", response_model=FeriadoResponse)
+async def obtener_feriados(anio: int):
+    """Devuelve los feriados de un año específico"""
+    validar_anio(anio)
+    anio_str = str(anio)
+
+    if anio_str not in FERIADOS_BYMA:
+        raise HTTPException(
+            status_code=404, detail=f"No hay datos de feriados para el año {anio}"
+        )
+
+    return {"anio": anio, "feriados": FERIADOS_BYMA[anio_str]}
 
 
 @app.post(
@@ -345,4 +345,4 @@ async def not_found_handler(request, exc):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=80)

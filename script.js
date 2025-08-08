@@ -1,5 +1,5 @@
 // Configuración de la API
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://feriadosbursatiles.ddns.net/api';
 
 // Estado global de la aplicación
 let currentYear = new Date().getFullYear();
@@ -564,7 +564,7 @@ function showAdminMessage(message, type) {
     elements.adminMessage.textContent = message;
     elements.adminMessage.className = `admin-message ${type}`;
     showElement(elements.adminMessage);
-    
+
     setTimeout(() => {
         hideElement(elements.adminMessage);
     }, 5000);
@@ -593,16 +593,16 @@ function showHolidayDetails(holiday) {
             </div>
         </div>
     `;
-    
+
     document.body.appendChild(modal);
-    
+
     // Cerrar modal al hacer clic en el botón X o fuera del modal
     modal.addEventListener('click', (e) => {
         if (e.target === modal || e.target.classList.contains('modal-close')) {
             modal.remove();
         }
     });
-    
+
     // Cerrar con ESC
     document.addEventListener('keydown', function closeModal(e) {
         if (e.key === 'Escape') {
