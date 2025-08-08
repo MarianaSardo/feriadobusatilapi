@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feriados Bursátiles Argentina</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h1>Feriados Bursátiles</h1>
+                </div>
+                <nav class="nav">
+                    <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+                    <button class="nav-btn" data-section="calendar">Calendario</button>
+                    <button class="nav-btn" data-section="admin">Admin</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="dashboard-header">
+                    <h2>Dashboard</h2>
+                    <p>Consulta los feriados bursátiles argentinos</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-feriados">-</h3>
+                            <p>Total Feriados</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="proximos-feriados">-</h3>
+                            <p>Próximos Feriados</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="anio-actual">-</h3>
+                            <p>Año Actual</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Section -->
+                <div class="search-section">
+                    <div class="search-card">
+                        <h3>Buscar Feriados</h3>
+                        <div class="search-controls">
+                            <div class="input-group">
+                                <label for="year-select">Año:</label>
+                                <select id="year-select" class="form-control">
+                                    <option value="">Seleccionar año</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="date-input">Fecha específica:</label>
+                                <input type="date" id="date-input" class="form-control">
+                            </div>
+                            <button id="search-btn" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                                Buscar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section">
+                    <div id="loading" class="loading hidden">
+                        <div class="spinner"></div>
+                        <p>Cargando...</p>
+                    </div>
+
+                    <div id="results" class="results-container hidden">
+                        <h3 id="results-title">Resultados</h3>
+                        <div id="results-content"></div>
+                    </div>
+
+                    <div id="error" class="error-message hidden">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p id="error-text"></p>
+                    </div>
+                </div>
+
+                <!-- Próximos Feriados -->
+                <div class="upcoming-section">
+                    <h3>Próximos Feriados</h3>
+                    <div id="upcoming-feriados" class="upcoming-grid"></div>
+                </div>
+            </section>
+
+            <!-- Calendar Section -->
+            <section id="calendar" class="section">
+                <div class="calendar-header">
+                    <h2>Calendario de Feriados</h2>
+                    <div class="calendar-controls">
+                        <button id="prev-month" class="btn btn-secondary">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 id="current-month">Enero 2024</h3>
+                        <button id="next-month" class="btn btn-secondary">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="calendar-container">
+                    <div class="calendar-weekdays">
+                        <div>Dom</div>
+                        <div>Lun</div>
+                        <div>Mar</div>
+                        <div>Mié</div>
+                        <div>Jue</div>
+                        <div>Vie</div>
+                        <div>Sáb</div>
+                    </div>
+                    <div id="calendar-grid" class="calendar-grid"></div>
+                </div>
+            </section>
+
+            <!-- Admin Section -->
+            <section id="admin" class="section">
+                <div class="admin-header">
+                    <h2>Panel de Administración</h2>
+                    <p>Gestionar feriados (requiere API Key)</p>
+                </div>
+
+                <div class="admin-grid">
+                    <!-- Add Holiday Form -->
+                    <div class="admin-card">
+                        <h3>Agregar Feriado</h3>
+                        <form id="add-holiday-form" class="admin-form">
+                            <div class="form-group">
+                                <label for="add-year">Año:</label>
+                                <input type="number" id="add-year" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="add-date">Fecha:</label>
+                                <input type="date" id="add-date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="add-name">Nombre:</label>
+                                <input type="text" id="add-name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="api-key">API Key:</label>
+                                <input type="password" id="api-key" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-plus"></i>
+                                Agregar Feriado
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Delete Holiday Form -->
+                    <div class="admin-card">
+                        <h3>Eliminar Feriado</h3>
+                        <form id="delete-holiday-form" class="admin-form">
+                            <div class="form-group">
+                                <label for="delete-year">Año:</label>
+                                <input type="number" id="delete-year" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="delete-date">Fecha:</label>
+                                <input type="date" id="delete-date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="delete-api-key">API Key:</label>
+                                <input type="password" id="delete-api-key" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i>
+                                Eliminar Feriado
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="admin-message" class="admin-message hidden"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 API de Feriados Bursátiles Argentina. Desarrollado con FastAPI y JavaScript.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

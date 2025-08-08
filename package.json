@@ -1,0 +1,41 @@
+{
+    "name": "feriados-bursatiles-frontend",
+    "version": "1.0.0",
+    "description": "Frontend moderno para la API de Feriados Bursátiles Argentina",
+    "main": "index.html",
+    "scripts": {
+        "start": "python -m http.server 3000",
+        "dev": "python -m http.server 3000",
+        "serve": "python -m http.server 3000",
+        "build": "echo 'Frontend estático - no requiere build'",
+        "deploy": "echo 'Despliega los archivos estáticos en tu servidor web'"
+    },
+    "keywords": [
+        "frontend",
+        "api",
+        "feriados",
+        "argentina",
+        "portfolio",
+        "javascript",
+        "css",
+        "html"
+    ],
+    "author": "Tu Nombre",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tuusuario/feriados-bursatiles-api.git"
+    },
+    "homepage": "https://github.com/tuusuario/feriados-bursatiles-api#readme",
+    "devDependencies": {
+        "live-server": "^1.2.2"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead"
+    ]
+}
