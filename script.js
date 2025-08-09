@@ -1,19 +1,16 @@
-// Configuración de la API
-const API_BASE_URL = 'https://feriadosbursatiles.ddns.net/api';
+const API_BASE_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://127.0.0.1:8000'
+    : 'https://feriadosbursatiles.ddns.net/api';
 
-// Estado global de la aplicación
 let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth();
 let holidaysData = {};
 let currentSection = 'dashboard';
 
-// Elementos del DOM
 const elements = {
-    // Navegación
     navButtons: document.querySelectorAll('.nav-btn'),
     sections: document.querySelectorAll('.section'),
 
-    // Dashboard
     totalFeriados: document.getElementById('total-feriados'),
     proximosFeriados: document.getElementById('proximos-feriados'),
     anioActual: document.getElementById('anio-actual'),
@@ -21,7 +18,6 @@ const elements = {
     dateInput: document.getElementById('date-input'),
     searchBtn: document.getElementById('search-btn'),
 
-    // Resultados
     loading: document.getElementById('loading'),
     results: document.getElementById('results'),
     resultsTitle: document.getElementById('results-title'),
@@ -29,44 +25,44 @@ const elements = {
     error: document.getElementById('error'),
     errorText: document.getElementById('error-text'),
 
-    // Próximos feriados
     upcomingFeriados: document.getElementById('upcoming-feriados'),
 
-    // Calendario
     currentMonthDisplay: document.getElementById('current-month'),
     prevMonthBtn: document.getElementById('prev-month'),
     nextMonthBtn: document.getElementById('next-month'),
     calendarGrid: document.getElementById('calendar-grid'),
 
-    // Admin
     addHolidayForm: document.getElementById('add-holiday-form'),
     deleteHolidayForm: document.getElementById('delete-holiday-form'),
     adminMessage: document.getElementById('admin-message'),
 
-    // Toast
-    toastContainer: document.getElementById('toast-container')
+    toastContainer: document.getElementById('toast-container'),
+
+    swaggerLink: document.getElementById('swagger-link'),
+    apiBaseUrlDisplay: document.getElementById('api-base-url-display')
 };
 
-// Inicialización de la aplicación
 document.addEventListener('DOMContentLoaded', function () {
+    if (elements.swaggerLink) {
+        const swaggerUrl = API_BASE_URL.replace(/\/$/, '') + '/docs';
+        elements.swaggerLink.href = swaggerUrl;
+    }
+    if (elements.apiBaseUrlDisplay) {
+        elements.apiBaseUrlDisplay.textContent = API_BASE_URL;
+    }
     initializeApp();
     setupEventListeners();
 });
 
-// Inicializar la aplicación
 async function initializeApp() {
     try {
-        // Cargar datos iniciales
         await loadAllHolidays();
         await loadUpcomingHolidays();
 
-        // Actualizar estadísticas
         updateStats();
 
-        // Configurar años disponibles
         setupYearSelect();
 
-        // Configurar calendario
         setupCalendar();
 
         showToast('Aplicación cargada correctamente', 'success');
@@ -76,9 +72,7 @@ async function initializeApp() {
     }
 }
 
-// Configurar event listeners
 function setupEventListeners() {
-    // Navegación
     elements.navButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const section = btn.dataset.section;
@@ -86,41 +80,33 @@ function setupEventListeners() {
         });
     });
 
-    // Búsqueda
     elements.searchBtn.addEventListener('click', handleSearch);
     elements.yearSelect.addEventListener('change', handleYearSelect);
     elements.dateInput.addEventListener('change', handleDateInput);
 
-    // Calendario
     elements.prevMonthBtn.addEventListener('click', () => changeMonth(-1));
     elements.nextMonthBtn.addEventListener('click', () => changeMonth(1));
 
-    // Admin forms
     elements.addHolidayForm.addEventListener('submit', handleAddHoliday);
     elements.deleteHolidayForm.addEventListener('submit', handleDeleteHoliday);
 }
 
-// Navegación entre secciones
 function switchSection(sectionName) {
-    // Actualizar botones de navegación
     elements.navButtons.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.section === sectionName);
     });
 
-    // Mostrar sección correspondiente
     elements.sections.forEach(section => {
         section.classList.toggle('active', section.id === sectionName);
     });
 
     currentSection = sectionName;
 
-    // Cargar datos específicos de la sección
     if (sectionName === 'calendar') {
         renderCalendar();
     }
 }
 
-// API Functions
 async function apiRequest(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
 
@@ -145,7 +131,6 @@ async function apiRequest(endpoint, options = {}) {
     }
 }
 
-// Cargar todos los feriados
 async function loadAllHolidays() {
     try {
         holidaysData = await apiRequest('/feriados/all');
@@ -155,7 +140,6 @@ async function loadAllHolidays() {
     }
 }
 
-// Cargar próximos feriados
 async function loadUpcomingHolidays() {
     try {
         const upcoming = await apiRequest('/feriados/proximos?cantidad=5');
@@ -166,7 +150,6 @@ async function loadUpcomingHolidays() {
     }
 }
 
-// Buscar feriados por año
 async function searchHolidaysByYear(year) {
     try {
         const data = await apiRequest(`/feriados/${year}`);
@@ -176,7 +159,6 @@ async function searchHolidaysByYear(year) {
     }
 }
 
-// Consultar fecha específica
 async function checkDate(date) {
     try {
         const data = await apiRequest(`/feriados/consultar/${date}`);
@@ -186,7 +168,6 @@ async function checkDate(date) {
     }
 }
 
-// Agregar feriado
 async function addHoliday(year, date, name, apiKey) {
     try {
         const params = new URLSearchParams({
@@ -202,7 +183,6 @@ async function addHoliday(year, date, name, apiKey) {
             }
         });
 
-        // Recargar datos
         await loadAllHolidays();
         await loadUpcomingHolidays();
         updateStats();
@@ -213,7 +193,6 @@ async function addHoliday(year, date, name, apiKey) {
     }
 }
 
-// Eliminar feriado
 async function deleteHoliday(year, date, apiKey) {
     try {
         const params = new URLSearchParams({
@@ -228,7 +207,6 @@ async function deleteHoliday(year, date, apiKey) {
             }
         });
 
-        // Recargar datos
         await loadAllHolidays();
         await loadUpcomingHolidays();
         updateStats();
@@ -239,18 +217,14 @@ async function deleteHoliday(year, date, apiKey) {
     }
 }
 
-// UI Functions
 function updateStats() {
-    // Total de feriados
     const totalHolidays = Object.values(holidaysData).reduce((total, yearHolidays) => {
         return total + yearHolidays.length;
     }, 0);
     elements.totalFeriados.textContent = totalHolidays;
 
-    // Año actual
     elements.anioActual.textContent = currentYear;
 
-    // Próximos feriados (se actualiza en loadUpcomingHolidays)
 }
 
 function setupYearSelect() {
@@ -297,7 +271,6 @@ function renderResults(data, title) {
     elements.resultsContent.innerHTML = '';
 
     if (Array.isArray(data)) {
-        // Lista de feriados
         data.forEach(holiday => {
             const card = document.createElement('div');
             card.className = 'holiday-card';
@@ -308,7 +281,6 @@ function renderResults(data, title) {
             elements.resultsContent.appendChild(card);
         });
     } else if (data.feriados) {
-        // Feriados por año
         data.feriados.forEach(holiday => {
             const card = document.createElement('div');
             card.className = 'holiday-card';
@@ -319,7 +291,6 @@ function renderResults(data, title) {
             elements.resultsContent.appendChild(card);
         });
     } else if (data.es_feriado !== undefined) {
-        // Consulta de fecha específica
         const card = document.createElement('div');
         card.className = 'holiday-card';
         card.innerHTML = `
@@ -350,7 +321,6 @@ function hideLoading() {
     hideElement(elements.loading);
 }
 
-// Event Handlers
 async function handleSearch() {
     const year = elements.yearSelect.value;
     const date = elements.dateInput.value;
@@ -399,7 +369,6 @@ async function handleAddHoliday(event) {
     const name = document.getElementById('add-name').value;
     const apiKey = document.getElementById('api-key').value;
 
-    // Validar que todos los campos estén completos
     if (!year || !date || !name || !apiKey) {
         showAdminMessage('Todos los campos son obligatorios', 'error');
         showToast('Completa todos los campos', 'error');
@@ -424,7 +393,6 @@ async function handleDeleteHoliday(event) {
     const date = document.getElementById('delete-date').value;
     const apiKey = document.getElementById('delete-api-key').value;
 
-    // Validar que todos los campos estén completos
     if (!year || !date || !apiKey) {
         showAdminMessage('Todos los campos son obligatorios', 'error');
         showToast('Completa todos los campos', 'error');
@@ -442,7 +410,6 @@ async function handleDeleteHoliday(event) {
     }
 }
 
-// Calendar Functions
 function setupCalendar() {
     renderCalendar();
 }
@@ -482,30 +449,25 @@ function renderCalendar() {
         dayElement.className = 'calendar-day';
         dayElement.textContent = date.getDate();
 
-        // Marcar días de otros meses
         if (date.getMonth() !== currentMonth) {
             dayElement.classList.add('other-month');
         }
 
-        // Marcar día actual
         if (date.toDateString() === today.toDateString()) {
             dayElement.classList.add('today');
         }
 
-        // Marcar feriados
         const dateStr = date.toISOString().split('T')[0];
         const holiday = holidays.find(h => h.fecha === dateStr);
         if (holiday) {
             dayElement.classList.add('holiday');
             dayElement.title = holiday.nombre;
 
-            // Agregar el nombre del feriado como tooltip más visible
             const holidayName = document.createElement('div');
             holidayName.className = 'holiday-name';
             holidayName.textContent = holiday.nombre;
             dayElement.appendChild(holidayName);
 
-            // Agregar evento de clic para mostrar más detalles
             dayElement.addEventListener('click', () => {
                 showHolidayDetails(holiday);
             });
@@ -515,7 +477,6 @@ function renderCalendar() {
     }
 }
 
-// Utility Functions
 function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-AR', {
@@ -570,7 +531,6 @@ function showAdminMessage(message, type) {
     }, 5000);
 }
 
-// Función para mostrar detalles del feriado
 function showHolidayDetails(holiday) {
     const modal = document.createElement('div');
     modal.className = 'holiday-modal';
@@ -596,14 +556,12 @@ function showHolidayDetails(holiday) {
 
     document.body.appendChild(modal);
 
-    // Cerrar modal al hacer clic en el botón X o fuera del modal
     modal.addEventListener('click', (e) => {
         if (e.target === modal || e.target.classList.contains('modal-close')) {
             modal.remove();
         }
     });
 
-    // Cerrar con ESC
     document.addEventListener('keydown', function closeModal(e) {
         if (e.key === 'Escape') {
             modal.remove();

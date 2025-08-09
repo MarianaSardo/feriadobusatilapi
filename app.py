@@ -7,9 +7,10 @@ import os
 from datetime import datetime, date
 from typing import List, Dict, Optional
 from pydantic import BaseModel, validator
-from fastapi import FastAPI, HTTPException, Depends, Query
+from fastapi import FastAPI, HTTPException, Depends, Query, Request
 from fastapi.security import APIKeyHeader
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 import uvicorn
 
 from config import (
@@ -18,10 +19,10 @@ from config import (
     MIN_YEAR,
     MAX_YEAR_OFFSET,
     MAX_PROXIMOS_FERIADOS,
+    API_PREFIX,
 )
 
 
-# Modelos Pydantic para validación
 class Feriado(BaseModel):
     fecha: str
     nombre: str
@@ -45,16 +46,19 @@ class MensajeResponse(BaseModel):
     detalles: Optional[Dict] = None
 
 
-# Configuración de FastAPI
+docs_url = f"{API_PREFIX}/docs" if API_PREFIX else "/docs"
+redoc_url = f"{API_PREFIX}/redoc" if API_PREFIX else "/redoc"
+openapi_url = f"{API_PREFIX}/openapi.json" if API_PREFIX else "/openapi.json"
+
 app = FastAPI(
     title="API de Feriados Bursátiles",
     description="API para consultar y gestionar feriados bursátiles argentinos",
     version="2.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
+    docs_url=docs_url,
+    redoc_url=redoc_url,
+    openapi_url=openapi_url,
 )
 
-# Configuración CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -63,7 +67,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Autenticación
 api_key_header = APIKeyHeader(name="X-API-Key")
 
 
@@ -75,9 +78,7 @@ def validar_api_key(api_key: str = Depends(api_key_header)):
     return api_key
 
 
-# Funciones de utilidad
 def cargar_feriados() -> Dict:
-    """Carga los feriados desde el archivo JSON"""
     try:
         with open(FERIADOS_FILE, "r", encoding="utf-8") as file:
             return json.load(file)
@@ -90,7 +91,6 @@ def cargar_feriados() -> Dict:
 
 
 def guardar_feriados(feriados: Dict) -> None:
-    """Guarda los feriados en el archivo JSON"""
     try:
         with open(FERIADOS_FILE, "w", encoding="utf-8") as file:
             json.dump(feriados, file, indent=4, ensure_ascii=False)
@@ -101,7 +101,6 @@ def guardar_feriados(feriados: Dict) -> None:
 
 
 def validar_anio(anio: int) -> None:
-    """Valida que el año sea razonable"""
     anio_actual = datetime.now().year
     if anio < MIN_YEAR or anio > anio_actual + MAX_YEAR_OFFSET:
         raise HTTPException(
@@ -111,7 +110,6 @@ def validar_anio(anio: int) -> None:
 
 
 def validar_fecha_futura(fecha_str: str) -> None:
-    """Valida que la fecha no sea muy antigua"""
     try:
         fecha = datetime.strptime(fecha_str, "%Y-%m-%d").date()
         fecha_minima = date(MIN_YEAR, 1, 1)
@@ -126,32 +124,48 @@ def validar_fecha_futura(fecha_str: str) -> None:
         )
 
 
-# Cargar datos iniciales
 FERIADOS_BYMA = cargar_feriados()
 
 
-# Endpoints
 @app.get("/", response_model=Dict)
 async def root():
-    """Endpoint raíz con información de la API"""
     return {
         "mensaje": "API de Feriados Bursátiles Argentinos",
         "version": "2.0.0",
         "endpoints": {
-            "todos_feriados": "/feriados/all",
-            "feriados_por_anio": "/feriados/{anio}",
-            "consultar_fecha": "/feriados/consultar/{fecha}",
-            "proximos_feriados": "/feriados/proximos",
-            "agregar_feriado": "/feriados/agregar/",
-            "eliminar_feriado": "/feriados/eliminar/",
+            "todos_feriados": (
+                f"{API_PREFIX}/feriados/all" if API_PREFIX else "/feriados/all"
+            ),
+            "feriados_por_anio": (
+                f"{API_PREFIX}/feriados/{{anio}}" if API_PREFIX else "/feriados/{anio}"
+            ),
+            "consultar_fecha": (
+                f"{API_PREFIX}/feriados/consultar/{{fecha}}"
+                if API_PREFIX
+                else "/feriados/consultar/{fecha}"
+            ),
+            "proximos_feriados": (
+                f"{API_PREFIX}/feriados/proximos"
+                if API_PREFIX
+                else "/feriados/proximos"
+            ),
+            "agregar_feriado": (
+                f"{API_PREFIX}/feriados/agregar/"
+                if API_PREFIX
+                else "/feriados/agregar/"
+            ),
+            "eliminar_feriado": (
+                f"{API_PREFIX}/feriados/eliminar/"
+                if API_PREFIX
+                else "/feriados/eliminar/"
+            ),
         },
-        "documentacion": "/docs",
+        "documentacion": docs_url,
     }
 
 
 @app.get("/feriados/all", response_model=Dict)
 async def obtener_todos_feriados():
-    """Devuelve todos los feriados disponibles en la base de datos."""
     return FERIADOS_BYMA
 
 
@@ -164,7 +178,6 @@ async def proximos_feriados(
         description=f"Cantidad de próximos feriados a mostrar (máximo {MAX_PROXIMOS_FERIADOS})",
     )
 ):
-    """Devuelve los próximos feriados desde hoy"""
     fecha_actual = datetime.now().date()
     proximos = []
 
@@ -183,14 +196,12 @@ async def proximos_feriados(
             except ValueError:
                 continue
 
-    # Ordenar por fecha y tomar los primeros
     proximos.sort(key=lambda x: x["fecha"])
     return proximos[:cantidad]
 
 
 @app.get("/feriados/consultar/{fecha}", response_model=Dict)
 async def consultar_fecha(fecha: str):
-    """Consulta si una fecha específica es feriado"""
     validar_fecha_futura(fecha)
 
     try:
@@ -218,7 +229,6 @@ async def consultar_fecha(fecha: str):
 
 @app.get("/feriados/{anio}", response_model=FeriadoResponse)
 async def obtener_feriados(anio: int):
-    """Devuelve los feriados de un año específico"""
     validar_anio(anio)
     anio_str = str(anio)
 
@@ -236,11 +246,9 @@ async def obtener_feriados(anio: int):
     dependencies=[Depends(validar_api_key)],
 )
 async def agregar_feriado(anio: int, fecha: str, nombre: str):
-    """Agrega un nuevo feriado al sistema"""
     validar_anio(anio)
     validar_fecha_futura(fecha)
 
-    # Validar que la fecha corresponda al año
     try:
         fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
         if fecha_obj.year != anio:
@@ -257,7 +265,6 @@ async def agregar_feriado(anio: int, fecha: str, nombre: str):
     if anio_str not in FERIADOS_BYMA:
         FERIADOS_BYMA[anio_str] = []
 
-    # Verificar si ya existe
     for f in FERIADOS_BYMA[anio_str]:
         if f["fecha"] == fecha:
             raise HTTPException(
@@ -267,7 +274,6 @@ async def agregar_feriado(anio: int, fecha: str, nombre: str):
     nuevo_feriado = {"fecha": fecha, "nombre": nombre}
     FERIADOS_BYMA[anio_str].append(nuevo_feriado)
 
-    # Ordenar feriados por fecha
     FERIADOS_BYMA[anio_str].sort(key=lambda x: x["fecha"])
 
     guardar_feriados(FERIADOS_BYMA)
@@ -288,7 +294,6 @@ async def agregar_feriado(anio: int, fecha: str, nombre: str):
     dependencies=[Depends(validar_api_key)],
 )
 async def eliminar_feriado(anio: int, fecha: str):
-    """Elimina un feriado del sistema"""
     validar_anio(anio)
     validar_fecha_futura(fecha)
 
@@ -327,21 +332,23 @@ async def eliminar_feriado(anio: int, fecha: str):
     }
 
 
-# Manejo de errores global
 @app.exception_handler(404)
-async def not_found_handler(request, exc):
-    return {
-        "error": "Recurso no encontrado",
-        "mensaje": "El endpoint o recurso solicitado no existe",
-        "endpoints_disponibles": [
-            "/",
-            "/feriados/all",
-            "/feriados/{anio}",
-            "/feriados/consultar/{fecha}",
-            "/feriados/proximos",
-            "/docs",
-        ],
-    }
+async def not_found_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        status_code=404,
+        content={
+            "error": "Recurso no encontrado",
+            "mensaje": "El endpoint o recurso solicitado no existe",
+            "endpoints_disponibles": [
+                "/",
+                "/feriados/all",
+                "/feriados/{anio}",
+                "/feriados/consultar/{fecha}",
+                "/feriados/proximos",
+                docs_url,
+            ],
+        },
+    )
 
 
 if __name__ == "__main__":

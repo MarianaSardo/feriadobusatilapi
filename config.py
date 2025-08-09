@@ -1,17 +1,14 @@
 import os
 
-# Configuración de archivos
 FERIADOS_FILE = os.getenv("FERIADOS_FILE", "feriados.json")
 
-# Configuración de seguridad
 API_KEY = os.getenv("API_KEY")
 
-# Configuración de validación
 MIN_YEAR = int(os.getenv("MIN_YEAR", "1900"))
 MAX_YEAR_OFFSET = int(os.getenv("MAX_YEAR_OFFSET", "10"))
 
-# Configuración de límites
 MAX_PROXIMOS_FERIADOS = int(os.getenv("MAX_PROXIMOS_FERIADOS", "20"))
+API_PREFIX = os.getenv("API_PREFIX", "")
 
 
 def validate_config():
@@ -29,5 +26,4 @@ def validate_config():
         raise ValueError("MAX_PROXIMOS_FERIADOS debe ser al menos 1")
 
 
-# Validar configuración al importar
 validate_config()

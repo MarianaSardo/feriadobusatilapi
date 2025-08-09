@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Agregado favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head>
 
 <body>
-    <!-- Header -->
+
     <header class="header">
         <div class="container">
             <div class="header-content">
@@ -29,17 +31,17 @@
         </div>
     </header>
 
-    <!-- Main Content -->
+
     <main class="main">
         <div class="container">
-            <!-- Dashboard Section -->
+
             <section id="dashboard" class="section active">
                 <div class="dashboard-header">
                     <h2>Dashboard</h2>
                     <p>Consulta los feriados bursátiles argentinos</p>
                 </div>
 
-                <!-- Stats Cards -->
+
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon">
@@ -70,7 +72,7 @@
                     </div>
                 </div>
 
-                <!-- Search Section -->
+
                 <div class="search-section">
                     <div class="search-card">
                         <h3>Buscar Feriados</h3>
@@ -93,7 +95,7 @@
                     </div>
                 </div>
 
-                <!-- Results Section -->
+
                 <div class="results-section">
                     <div id="loading" class="loading hidden">
                         <div class="spinner"></div>
@@ -111,14 +113,14 @@
                     </div>
                 </div>
 
-                <!-- Próximos Feriados -->
+
                 <div class="upcoming-section">
                     <h3>Próximos Feriados</h3>
                     <div id="upcoming-feriados" class="upcoming-grid"></div>
                 </div>
             </section>
 
-            <!-- Calendar Section -->
+
             <section id="calendar" class="section">
                 <div class="calendar-header">
                     <h2>Calendario de Feriados</h2>
@@ -146,7 +148,7 @@
                 </div>
             </section>
 
-            <!-- Admin Section -->
+
             <section id="admin" class="section">
                 <div class="admin-header">
                     <h2>Panel de Administración</h2>
@@ -154,7 +156,7 @@
                 </div>
 
                 <div class="admin-grid">
-                    <!-- Add Holiday Form -->
+
                     <div class="admin-card">
                         <h3>Agregar Feriado</h3>
                         <form id="add-holiday-form" class="admin-form">
@@ -183,7 +185,7 @@
                         </form>
                     </div>
 
-                    <!-- Delete Holiday Form -->
+
                     <div class="admin-card">
                         <h3>Eliminar Feriado</h3>
                         <form id="delete-holiday-form" class="admin-form">
@@ -198,7 +200,8 @@
                             <div class="form-group">
                                 <label for="delete-api-key">API Key:</label>
                                 <input type="password" id="delete-api-key" class="form-control" required>
-                                <small class="form-text">Ingresa la API Key para realizar operaciones administrativas</small>
+                                <small class="form-text">Ingresa la API Key para realizar operaciones
+                                    administrativas</small>
                             </div>
                             <button type="submit" class="btn btn-danger">
                                 <i class="fas fa-trash"></i>
@@ -211,7 +214,7 @@
                 <div id="admin-message" class="admin-message hidden"></div>
             </section>
 
-            <!-- Documentation Section -->
+
             <section id="docs" class="section">
                 <div class="docs-header">
                     <h2>Documentación de la API</h2>
@@ -219,17 +222,18 @@
                 </div>
 
                 <div class="docs-container">
-                    <!-- API Info -->
+
                     <div class="docs-card">
                         <h3>📋 Información General</h3>
                         <div class="api-info">
                             <div class="info-item">
                                 <strong>URL Base:</strong>
-                                <code>https://feriadosbursatiles.ddns.net/api</code>
+                                <code id="api-base-url-display">https://feriadosbursatiles.ddns.net/api</code>
                             </div>
                             <div class="info-item">
                                 <strong>Documentación Swagger:</strong>
-                                <a href="https://feriadosbursatiles.ddns.net/docs" target="_blank" class="docs-link">
+                                <a id="swagger-link" href="https://feriadosbursatiles.ddns.net/docs" target="_blank"
+                                    class="docs-link">
                                     <i class="fas fa-external-link-alt"></i>
                                     Ver Swagger UI
                                 </a>
@@ -241,7 +245,7 @@
                         </div>
                     </div>
 
-                    <!-- Endpoints -->
+
                     <div class="docs-card">
                         <h3>🔍 Endpoints de Consulta (Sin Autenticación)</h3>
                         <div class="endpoints-grid">
@@ -287,7 +291,7 @@
                         </div>
                     </div>
 
-                    <!-- Admin Endpoints -->
+
                     <div class="docs-card">
                         <h3>🔧 Endpoints de Administración (Requiere API Key)</h3>
                         <div class="endpoints-grid">
@@ -317,7 +321,7 @@
                         </div>
                     </div>
 
-                    <!-- Examples -->
+
                     <div class="docs-card">
                         <h3>💡 Ejemplos de Uso</h3>
                         <div class="examples-grid">
@@ -353,7 +357,7 @@
                         </div>
                     </div>
 
-                    <!-- Response Examples -->
+
                     <div class="docs-card">
                         <h3>📄 Ejemplos de Respuesta</h3>
                         <div class="response-examples">
@@ -379,7 +383,7 @@
                         </div>
                     </div>
 
-                    <!-- Error Handling -->
+
                     <div class="docs-card">
                         <h3>⚠️ Manejo de Errores</h3>
                         <div class="error-examples">
@@ -410,14 +414,14 @@
         </div>
     </main>
 
-    <!-- Footer -->
+
     <footer class="footer">
         <div class="container">
             <p>&copy; 2024 API de Feriados Bursátiles Argentina. Desarrollado con FastAPI y JavaScript.</p>
         </div>
     </footer>
 
-    <!-- Toast Notifications -->
+
     <div id="toast-container" class="toast-container"></div>
 
     <script src="script.js?v=2"></script>

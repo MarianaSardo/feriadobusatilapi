@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -19,7 +19,7 @@ body {
     padding: 0 20px;
 }
 
-/* Header */
+
 .header {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
@@ -80,7 +80,7 @@ body {
     color: white;
 }
 
-/* Main Content */
+
 .main {
     padding: 2rem 0;
 }
@@ -93,7 +93,7 @@ body {
     display: block;
 }
 
-/* Dashboard */
+
 .dashboard-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -111,7 +111,7 @@ body {
     opacity: 0.9;
 }
 
-/* Stats Grid */
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -159,7 +159,7 @@ body {
     font-weight: 500;
 }
 
-/* Search Section */
+
 .search-section {
     margin-bottom: 3rem;
 }
@@ -223,7 +223,7 @@ body {
     font-family: 'Courier New', monospace;
 }
 
-/* Buttons */
+
 .btn {
     padding: 0.75rem 1.5rem;
     border: none;
@@ -267,7 +267,7 @@ body {
     color: white;
 }
 
-/* Results Section */
+
 .results-section {
     margin-bottom: 3rem;
 }
@@ -325,7 +325,7 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Holiday Cards */
+
 .holiday-card {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
@@ -344,7 +344,7 @@ body {
     opacity: 0.9;
 }
 
-/* Upcoming Section */
+
 .upcoming-section {
     margin-bottom: 3rem;
 }
@@ -386,7 +386,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* Calendar Section */
+
 .calendar-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -507,7 +507,7 @@ body {
     font-weight: 700;
 }
 
-/* Admin Section */
+
 .admin-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -577,7 +577,7 @@ body {
     color: #d63031;
 }
 
-/* Footer */
+
 .footer {
     background: rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
@@ -587,7 +587,7 @@ body {
     margin-top: 3rem;
 }
 
-/* Toast Notifications */
+
 .toast-container {
     position: fixed;
     top: 20px;
@@ -628,7 +628,7 @@ body {
     }
 }
 
-/* Modal de Detalles del Feriado */
+
 .holiday-modal {
     position: fixed;
     top: 0;
@@ -727,7 +727,7 @@ body {
     }
 }
 
-/* Documentation Section */
+
 .docs-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -759,7 +759,7 @@ body {
     font-size: 1.25rem;
 }
 
-/* API Info */
+
 .api-info {
     display: flex;
     flex-direction: column;
@@ -803,7 +803,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* Endpoints */
+
 .endpoints-grid {
     display: grid;
     gap: 1rem;
@@ -870,7 +870,7 @@ body {
     margin-top: 0.5rem;
 }
 
-/* Examples */
+
 .examples-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -903,7 +903,7 @@ body {
     color: #333;
 }
 
-/* Response Examples */
+
 .response-examples {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -935,7 +935,7 @@ body {
     white-space: pre-wrap;
 }
 
-/* Error Examples */
+
 .error-examples {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -955,7 +955,7 @@ body {
     font-size: 1rem;
 }
 
-/* Responsive Design for Docs */
+
 @media (max-width: 768px) {
     .examples-grid,
     .response-examples,
@@ -974,12 +974,12 @@ body {
     }
 }
 
-/* Utility Classes */
+
 .hidden {
     display: none !important;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
