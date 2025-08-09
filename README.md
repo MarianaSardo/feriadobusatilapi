@@ -223,11 +223,6 @@ https://github.com/MarianaSardo/feriadobusatilapi.git
 - **Planificación** de actividades y viajes
 - **Verificación** de fechas laborables
 
-### Para Portafolios
-- **Demostración de habilidades** en desarrollo full-stack
-- **Integración frontend-backend** moderna
-- **Sistema de autenticación** y seguridad
-- **Diseño responsive** y UX profesional
 
 ## 📞 **Soporte**
 
