@@ -1,6 +1,22 @@
-const API_BASE_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-    ? 'http://127.0.0.1:8000'
-    : 'https://feriadosbursatiles.ddns.net/api';
+const API_BASE_URL = (() => {
+    const hostname = location.hostname;
+    const protocol = location.protocol;
+    const port = location.port;
+    
+    // Desarrollo local directo a la API
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        // Si estamos en puerto 3000 (frontend), usar proxy
+        if (port === '3000') {
+            return `${protocol}//${hostname}:${port}/api`;
+        }
+        // Si estamos en otro puerto, acceso directo a API
+        return 'http://127.0.0.1:8000';
+    }
+    
+    // Producción - usar proxy reverso para ambas URLs
+    // Tanto para feriadosbursatiles.ddns.net como para 50.18.187.142
+    return `${protocol}//${hostname}${port ? ':' + port : ''}/api`;
+})();
 
 let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth();
@@ -568,4 +584,4 @@ function showHolidayDetails(holiday) {
             document.removeEventListener('keydown', closeModal);
         }
     });
-} 
+}
