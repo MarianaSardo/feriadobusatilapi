@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  feriados-api:
+    build: .
+    container_name: feriados-bursatiles-api
+    ports:
+      - "8000:8000"
+    environment:
+      - API_KEY=${API_KEY:-tu_api_key_por_defecto}
+      - FERIADOS_FILE=feriados.json
+      - MIN_YEAR=1900
+      - MAX_YEAR_OFFSET=10
+      - MAX_PROXIMOS_FERIADOS=20
+    volumes:
+      - ./feriados.json:/app/feriados.json
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Opcional: Nginx para servir archivos estáticos del frontend
+  frontend:
+    image: nginx:alpine
+    container_name: feriados-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html
+      - ./styles.css:/usr/share/nginx/html/styles.css
+      - ./script.js:/usr/share/nginx/html/script.js
+      - ./favicon.svg:/usr/share/nginx/html/favicon.svg
+    restart: unless-stopped
+    depends_on:
+      - feriados-api
