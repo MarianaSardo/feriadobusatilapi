@@ -208,5 +208,87 @@
             "fecha": "2025-12-25",
             "nombre": "Navidad"
         }
+    ],
+    "2026": [
+        {
+            "fecha": "2026-01-01",
+            "nombre": "AÑO NUEVO 2026"
+        },
+        {
+            "fecha": "2026-02-16",
+            "nombre": "Carnaval"
+        },
+        {
+            "fecha": "2026-02-17",
+            "nombre": "Carnaval"
+        },
+        {
+            "fecha": "2026-03-23",
+            "nombre": "Día no Laborable con Fines Turísticos"
+        },
+        {
+            "fecha": "2026-03-24",
+            "nombre": "Día Nacional de la Memoria por la Verdad y la Justicia"
+        },
+        {
+            "fecha": "2026-04-02",
+            "nombre": "Día del Veterano y de los Caídos en la Guerra de Malvinas"
+        },
+        {
+            "fecha": "2026-04-03",
+            "nombre": "Viernes Santo. Festividad Cristiana"
+        },
+        {
+            "fecha": "2026-05-01",
+            "nombre": "Día del Trabajador"
+        },
+        {
+            "fecha": "2026-05-25",
+            "nombre": "Día de la Revolución de Mayo"
+        },
+        {
+            "fecha": "2026-06-15",
+            "nombre": "Paso a la Inmortalidad del General Martín Miguel de Güemes"
+        },
+        {
+            "fecha": "2026-07-09",
+            "nombre": "Día de la Independencia"
+        },
+        {
+            "fecha": "2026-07-10",
+            "nombre": "Día no Laborable con Fines Turísticos"
+        },
+        {
+            "fecha": "2026-08-17",
+            "nombre": "Paso a la Inmortalidad del Gral. Don José de San Martín"
+        },
+        {
+            "fecha": "2026-10-12",
+            "nombre": "Día del Respeto a la Diversidad Cultural"
+        },
+        {
+            "fecha": "2026-11-06",
+            "nombre": "Día del Bancario"
+        },
+        {
+            "fecha": "2026-12-07",
+            "nombre": "Día no Laborable con Fines Turísticos"
+        },
+        {
+            "fecha": "2026-12-08",
+            "nombre": "Inmaculada Concepción de María"
+        },
+        {
+            "fecha": "2026-12-24",
+            "nombre": "Nochebuena"
+        },
+        {
+            "fecha": "2026-12-25",
+            "nombre": "Navidad"
+        },
+        {
+            "fecha": "2026-12-31",
+            "nombre": "Jornada sin Negociación ni Liquidación"
+        }
     ]
 }
